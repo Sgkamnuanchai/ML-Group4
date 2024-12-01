@@ -5,7 +5,6 @@ import pickle
 import dash
 from sklearn.preprocessing import MinMaxScaler
 import pandas as pd
-import gdown
 # Load the model
 filename = './model/group4V2.model'
 fileUnsup = './model/model.pkl'
@@ -474,14 +473,24 @@ def generate_recommendations(age, job, marital, education, default, balance, hou
         transformed_data = preprocessor.transform(input_data)
         prediction = model.predict(transformed_data)
 
+        if prediction[0] == 0:  # High-value customers
+            promotion = "Exclusive perks: 1-year fee waiver on premium account."
+        elif prediction[0] == 1:  # At-risk customers
+            promotion = "10% cashback on debit card transactions for 3 months."
+        elif prediction[0] == 2:  # Low-value customers
+            promotion = "$20 bonus for maintaining 500 Baht minimum balance for 6 months."
+        elif prediction[0] == 3:  # New customers
+            promotion = "Welcome bonus: 50 Baht for setting up direct deposit within 30 days."
+        else:
+            promotion = "No promotion available"
         # Determine promotion based on cluster
-        promotion_map = {
-            0: "5%",
-            1: "10%",
-            2: "15%",
-            3: "20%"
-        }
-        promotion = promotion_map.get(prediction[0], "No promotion available")
+        # promotion_map = {
+        #     0: "5%",
+        #     1: "10%",
+        #     2: "15%",
+        #     3: "20%"
+        # }
+        # promotion = promotion_map.get(prediction[0], "No promotion available")
 
         # Return result as HTML
         return html.Div([
