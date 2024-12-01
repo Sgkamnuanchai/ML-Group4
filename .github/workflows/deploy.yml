@@ -23,7 +23,8 @@ jobs:
       # 3. SSH into EC2 and deploy
       - name: Deploy to EC2
         run: |
-          ssh -i deployml.pem ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
+          ssh -i deployml.pem -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
+            echo "Connected to EC2!"
             # Login to Docker Hub (if needed)
             docker login -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
 
