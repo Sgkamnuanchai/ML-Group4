@@ -31,7 +31,7 @@ jobs:
             docker login -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
 
             # Pull the latest Docker image
-            docker pull --platform linux/amd64 sonakul/group4-deployment:latest
+            docker pull sonakul/group4-deployment:latest
 
             # Run the new container
             docker run -d --name my-app -p 80:80 sonakul/group4-deployment:latest
